@@ -72,28 +72,3 @@ namespace HeuristicLab.RuntimePrediction.Parameters {
   }
 }
 
-class LockedRandom {
-  private Random random = new Random();
-
-  
-
-  internal int Next(int from, int to) {
-    lock (this) {
-      return random.Next(from, to);
-    }
-  }
-
-  internal bool NextBool() {
-    return NextDouble() >= 0.5;
-  }
-
-  internal double NextDouble() {
-    lock (this) {
-      return random.NextDouble();
-    }
-  }
-
-  public T FromCollection<T>(ICollection<T> values) {
-    return values.ElementAt(Next(0, values.Count));
-  }
-}

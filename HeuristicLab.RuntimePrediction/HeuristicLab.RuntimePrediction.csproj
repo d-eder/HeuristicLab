@@ -58,12 +58,14 @@
     </Compile>
     <Compile Include="DataGeneration\DataGenerator.cs" />
     <Compile Include="DataGeneration\GenerationResult.cs" />
+    <Compile Include="DataGeneration\ProblemInstancePreparer.cs" />
     <Compile Include="Parameters\GAConfig.cs" />
     <Compile Include="Parameters\ParameterConfig.cs" />
     <Compile Include="Parameters\Parameterizer.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RuntimePredictionService.cs" />
+    <Compile Include="TaskQueue.cs" />
     <Compile Include="Utils.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -102,6 +104,46 @@
     <ProjectReference Include="..\HeuristicLab.Parameters\3.3\HeuristicLab.Parameters-3.3.csproj">
       <Project>{56F9106A-079F-4C61-92F6-86A84C2D84B7}</Project>
       <Name>HeuristicLab.Parameters-3.3</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\HeuristicLab.PluginInfrastructure\3.3\HeuristicLab.PluginInfrastructure-3.3.csproj">
+      <Project>{94186A6A-5176-4402-AE83-886557B53CCA}</Project>
+      <Name>HeuristicLab.PluginInfrastructure-3.3</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\HeuristicLab.Problems.Instances.CordeauGQAP\3.3\HeuristicLab.Problems.Instances.CordeauGQAP-3.3.csproj">
+      <Project>{1f2718da-bf13-40ee-a7fd-eedb4912e64e}</Project>
+      <Name>HeuristicLab.Problems.Instances.CordeauGQAP-3.3</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\HeuristicLab.Problems.Instances.DataAnalysis\3.3\HeuristicLab.Problems.Instances.DataAnalysis-3.3.csproj">
+      <Project>{94c7714e-29d4-4d6d-b213-2c18d627ab75}</Project>
+      <Name>HeuristicLab.Problems.Instances.DataAnalysis-3.3</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\HeuristicLab.Problems.Instances.DIMACS\3.3\HeuristicLab.Problems.Instances.DIMACS-3.3.csproj">
+      <Project>{9943ff23-8619-459c-b84a-e7fbdcba04e6}</Project>
+      <Name>HeuristicLab.Problems.Instances.DIMACS-3.3</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\HeuristicLab.Problems.Instances.ElloumiCTAP\3.3\HeuristicLab.Problems.Instances.ElloumiCTAP-3.3.csproj">
+      <Project>{ccf61da0-b226-4c0f-8052-29acc6bde6ee}</Project>
+      <Name>HeuristicLab.Problems.Instances.ElloumiCTAP-3.3</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\HeuristicLab.Problems.Instances.Orienteering\3.3\HeuristicLab.Problems.Instances.Orienteering-3.3.csproj">
+      <Project>{b37bf2dd-752c-456a-9def-ff5b41fc3c77}</Project>
+      <Name>HeuristicLab.Problems.Instances.Orienteering-3.3</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\HeuristicLab.Problems.Instances.QAPLIB\3.3\HeuristicLab.Problems.Instances.QAPLIB-3.3.csproj">
+      <Project>{73f29d43-5714-4069-8fab-0d18feb5f175}</Project>
+      <Name>HeuristicLab.Problems.Instances.QAPLIB-3.3</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\HeuristicLab.Problems.Instances.Scheduling\3.3\HeuristicLab.Problems.Instances.Scheduling-3.3.csproj">
+      <Project>{9d792b6d-836b-46dc-9d69-50b4b1e7b87f}</Project>
+      <Name>HeuristicLab.Problems.Instances.Scheduling-3.3</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\HeuristicLab.Problems.Instances.TSPLIB\3.3\HeuristicLab.Problems.Instances.TSPLIB-3.3.csproj">
+      <Project>{ce0f99d6-1c56-48a9-9b68-3e5b833703ef}</Project>
+      <Name>HeuristicLab.Problems.Instances.TSPLIB-3.3</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\HeuristicLab.Problems.Instances.VehicleRouting\3.4\HeuristicLab.Problems.Instances.VehicleRouting-3.4.csproj">
+      <Project>{8c265e11-4f8d-4ced-9e6b-f400a0075c18}</Project>
+      <Name>HeuristicLab.Problems.Instances.VehicleRouting-3.4</Name>
     </ProjectReference>
     <ProjectReference Include="..\HeuristicLab.Problems.Instances\3.3\HeuristicLab.Problems.Instances-3.3.csproj">
       <Project>{3540E29E-4793-49E7-8EE2-FEA7F61C3994}</Project>

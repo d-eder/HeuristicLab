@@ -21,17 +21,18 @@ namespace HeuristicLab.RuntimePrediction {
 
     public void GenerateRawData<TAlgorithm, TProblem>(int count) where TAlgorithm : IAlgorithm, IStorableContent, new() where TProblem : IProblem, new() {
       var generator = new DataGenerator<TAlgorithm, TProblem>(logger);
+
       generator.GenerateData(count)
-        .Select(a => SaveAlgorithm(a))
-        .ForEach(t => t.Wait());
+        .GetTasksLazy()
+        .ForEach(a => SaveAlgorithm(a));
     }
 
-    private async Task SaveAlgorithm(Task<GenerationResult> algorithmTask) {
+    private async void SaveAlgorithm(Task<GenerationResult> algorithmTask) {
       var result = await algorithmTask;
       var algorithm = result.Algorithm;
       var now = DateTime.Now.ToString("dd.MM.yyyy-HH.mm.ss");
 
-      var dir = Directory.CreateDirectory(Path.Combine(config.RawDataPath, algorithm.Name, algorithm.Problem.Name));
+      var dir = Directory.CreateDirectory(Path.Combine(config.RawDataPath, algorithm.GetType().Name, algorithm.Problem.GetType().Name));
       var fileName = Path.Combine(dir.FullName, $"{now}-{result.Nr}.hl");
       
       ContentManager.Save((IStorableContent) algorithm, fileName, true);

@@ -15,17 +15,15 @@ namespace HeuristicLab.RuntimePrediction {
 
 
   class LocalAlgorithmRunner : IAlgorithmRunner {
+    public int ParallismCount => Environment.ProcessorCount;
+
     public Task RunAlgorithm(IAlgorithm algorithm) {
-#if DEBUG
-      algorithm.Start();
-      return Task.CompletedTask;
-#else
       return algorithm.StartAsync();
-#endif
     }
   }
 
   interface IAlgorithmRunner {
     Task RunAlgorithm(IAlgorithm algorithm);
+    int ParallismCount { get; }
   }
 }
