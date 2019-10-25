@@ -10,7 +10,7 @@ using HeuristicLab.Core;
 using HeuristicLab.Data;
 using HeuristicLab.Parameters;
 
-namespace HeuristicLab.RuntimePrediction.Parameters {
+namespace HeuristicLab.RuntimePrediction {
 
   interface IParameterConfig {
     Type InstanceType { get; }

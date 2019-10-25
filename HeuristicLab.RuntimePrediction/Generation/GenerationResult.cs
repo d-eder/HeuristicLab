@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using HeuristicLab.Optimization;
 
-namespace HeuristicLab.RuntimePrediction.DataGeneration {
+namespace HeuristicLab.RuntimePrediction {
   class GenerationResult {
     public GenerationResult(int nr, IAlgorithm algorithm) {
       Nr = nr;

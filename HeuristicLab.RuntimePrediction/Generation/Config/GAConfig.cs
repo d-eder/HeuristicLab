@@ -5,9 +5,8 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using HeuristicLab.Algorithms.GeneticAlgorithm;
-using HeuristicLab.RuntimePrediction.Parameters;
 
-namespace HeuristicLab.RuntimePrediction.Parameters {
+namespace HeuristicLab.RuntimePrediction {
   class GAConfig : ParameterConfig<GeneticAlgorithm> {
 
     public GAConfig() {

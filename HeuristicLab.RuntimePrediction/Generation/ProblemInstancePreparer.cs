@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using HeuristicLab.Optimization;
 using HeuristicLab.Problems.Instances;
 
-namespace HeuristicLab.RuntimePrediction.DataGeneration {
+namespace HeuristicLab.RuntimePrediction {
 
 
   static class ProblemInstancePreparer {

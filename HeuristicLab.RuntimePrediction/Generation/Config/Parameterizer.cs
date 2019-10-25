@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using HeuristicLab.Core;
 using HeuristicLab.Optimization;
 
-namespace HeuristicLab.RuntimePrediction.Parameters {
+namespace HeuristicLab.RuntimePrediction {
   static class Parameterizer {
 
     private readonly static Dictionary<Type, IParameterConfig> configs = new Dictionary<Type, IParameterConfig>();

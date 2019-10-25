@@ -8,14 +8,15 @@ using System.Threading.Tasks;
 using HeuristicLab.Algorithms.GeneticAlgorithm;
 using HeuristicLab.PluginInfrastructure;
 using HeuristicLab.Problems.TravelingSalesman;
-using HeuristicLab.RuntimePrediction.DataGeneration;
 
 namespace HeuristicLab.RuntimePrediction {
   class Program {
     static void Main(string[] args) {
       LoadNecessaryAssemblies();
-      new RuntimePredictionService()
-        .GenerateRawData<GeneticAlgorithm, TravelingSalesmanProblem>(1000);
+      var predicitonService = new RuntimePredictionService();
+      //predicitonService.GenerateRawData<GeneticAlgorithm, TravelingSalesmanProblem>(1000);
+      //predicitonService.PreprocessData();
+      predicitonService.ExtractDataFromHlFiles();
       Console.ReadKey();
     }
 

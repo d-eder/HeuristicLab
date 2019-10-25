@@ -34,5 +34,17 @@ namespace HeuristicLab.RuntimePrediction {
                 this["RawDataPath"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("..\\..\\..\\..\\Experimente\\runs")]
+        public string ExperimentPath {
+            get {
+                return ((string)(this["ExperimentPath"]));
+            }
+            set {
+                this["ExperimentPath"] = value;
+            }
+        }
     }
 }

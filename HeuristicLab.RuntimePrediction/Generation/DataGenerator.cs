@@ -7,19 +7,13 @@ using HeuristicLab.Data;
 using HeuristicLab.Optimization;
 using HeuristicLab.Parameters;
 using HeuristicLab.Problems.Instances;
-using HeuristicLab.RuntimePrediction.Parameters;
 using HeuristicLab.Tracing;
 
-namespace HeuristicLab.RuntimePrediction.DataGeneration {
+namespace HeuristicLab.RuntimePrediction {
   class DataGenerator<TAlgorithm, TProblem> where TAlgorithm : IAlgorithm, new() where TProblem : IProblem, new() {
-
-    private ILogger logger;
     private IAlgorithmRunner runner = AlgrithmRunnerFactory.GetRunner();
     private Random random = new Random();
 
-    public DataGenerator(ILogger logger) {
-      this.logger = logger;
-    }
 
     public TaskQueue<Task<GenerationResult>> GenerateData(int count) {
       var taskQueue = new TaskQueue<Task<GenerationResult>>(runner.ParallismCount);
@@ -32,13 +26,6 @@ namespace HeuristicLab.RuntimePrediction.DataGeneration {
 
       return taskQueue;
     }
-
-    //public IEnumerable<Task<GenerationResult>> GenerateData(int count) {
-    //  for (int i = 0; i < count; i++) {
-    //    var task = RunAlgorithm(i + 1);
-    //    yield return task;
-    //  }
-    //}
 
     private async Task<GenerationResult> RunAlgorithm(int number) {
       var problem = new TProblem();
@@ -54,14 +41,14 @@ namespace HeuristicLab.RuntimePrediction.DataGeneration {
 
       Parameterizer.SetParameters(algorithm);
 
-      logger.Info($"prepare algorithm {number}");
+      Logger.Info($"prepare algorithm {number}");
       PrintParams(algorithm);
       PrintParams(problem);
       algorithm.Prepare();
-      logger.Info($"start algorithm {number}");
+      Logger.Info($"start algorithm {number}");
 
       await runner.RunAlgorithm(algorithm);
-      logger.Info($"algorithm {number} finished (runtime={algorithm.ExecutionTime})");
+      Logger.Info($"algorithm {number} finished (runtime={algorithm.ExecutionTime})");
 
       return new GenerationResult(number, algorithm);
     }
@@ -76,11 +63,11 @@ namespace HeuristicLab.RuntimePrediction.DataGeneration {
     }
 
     private void PrintParams(IParameterizedNamedItem item) {
-      logger.Info($"Parameters for {item.Name}:");
+      Logger.Info($"Parameters for {item.Name}:");
       foreach (var param in item.Parameters) {
-        logger.Info($"{param.Name} = {param.ActualValue}");
+        Logger.Info($"{param.Name} = {param.ActualValue}");
       }
-      logger.Info("");
+      Logger.Info("");
     }
   }
 }

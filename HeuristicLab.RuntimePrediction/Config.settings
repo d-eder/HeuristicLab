@@ -5,5 +5,8 @@
     <Setting Name="RawDataPath" Type="System.String" Scope="User">
       <Value Profile="(Default)">..\..\..\..\data/rawdata</Value>
     </Setting>
+    <Setting Name="ExperimentPath" Type="System.String" Scope="User">
+      <Value Profile="(Default)">..\..\..\..\Experimente\runs</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

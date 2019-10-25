@@ -35,12 +35,28 @@
     <LangVersion>latest</LangVersion>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="CsvHelper, Version=12.0.0.0, Culture=neutral, PublicKeyToken=8c4959082be5c823, processorArchitecture=MSIL">
+      <HintPath>..\packages\CsvHelper.12.1.2\lib\net45\CsvHelper.dll</HintPath>
+    </Reference>
+    <Reference Include="Google.Protobuf, Version=3.6.1.0, Culture=neutral, PublicKeyToken=a7d26565bac4d604, processorArchitecture=MSIL">
+      <HintPath>..\packages\Google.Protobuf.3.6.1\lib\net45\Google.Protobuf.dll</HintPath>
+    </Reference>
+    <Reference Include="HEAL.Attic, Version=1.4.0.0, Culture=neutral, PublicKeyToken=ba48961d6f65dcec, processorArchitecture=MSIL">
+      <HintPath>..\packages\HEAL.Attic.1.4.0\lib\net461\HEAL.Attic.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Drawing.Common, Version=4.0.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Drawing.Common.4.5.1\lib\net461\System.Drawing.Common.dll</HintPath>
+    </Reference>
     <Reference Include="System.Linq.Expressions, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Linq.Expressions.4.3.0\lib\net463\System.Linq.Expressions.dll</HintPath>
       <Private>True</Private>
       <Private>True</Private>
+    </Reference>
+    <Reference Include="System.ValueTuple, Version=4.0.2.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ValueTuple.4.4.0\lib\net47\System.ValueTuple.dll</HintPath>
     </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -56,17 +72,25 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Config.settings</DependentUpon>
     </Compile>
-    <Compile Include="DataGeneration\DataGenerator.cs" />
-    <Compile Include="DataGeneration\GenerationResult.cs" />
-    <Compile Include="DataGeneration\ProblemInstancePreparer.cs" />
-    <Compile Include="Parameters\GAConfig.cs" />
-    <Compile Include="Parameters\ParameterConfig.cs" />
-    <Compile Include="Parameters\Parameterizer.cs" />
+    <Compile Include="Generation\DataGenerator.cs" />
+    <Compile Include="Generation\GenerationResult.cs" />
+    <Compile Include="Generation\ProblemInstancePreparer.cs" />
+    <Compile Include="Generation\Config\GAConfig.cs" />
+    <Compile Include="Generation\Config\ParameterConfig.cs" />
+    <Compile Include="Generation\Config\Parameterizer.cs" />
+    <Compile Include="PreProcessing\HlDataExtractor.cs" />
+    <Compile Include="PreProcessing\DataPreparer.cs" />
+    <Compile Include="PreProcessing\Data.cs" />
+    <Compile Include="PreProcessing\StringParameterCategorizer.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RuntimePredictionService.cs" />
     <Compile Include="TaskQueue.cs" />
-    <Compile Include="Utils.cs" />
+    <Compile Include="Utils\Csv.cs" />
+    <Compile Include="Utils\Extensions.cs" />
+    <Compile Include="Utils\FileUtils.cs" />
+    <Compile Include="Utils\LockedRandom.cs" />
+    <Compile Include="Utils\Logger.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -80,6 +104,10 @@
     <ProjectReference Include="..\HeuristicLab.Algorithms.GeneticAlgorithm\3.3\HeuristicLab.Algorithms.GeneticAlgorithm-3.3.csproj">
       <Project>{A51DA44F-CB35-4F6F-99F5-2A2E904AB93B}</Project>
       <Name>HeuristicLab.Algorithms.GeneticAlgorithm-3.3</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\HeuristicLab.Analysis\3.3\HeuristicLab.Analysis-3.3.csproj">
+      <Project>{887425B4-4348-49ED-A457-B7D2C26DDBF9}</Project>
+      <Name>HeuristicLab.Analysis-3.3</Name>
     </ProjectReference>
     <ProjectReference Include="..\HeuristicLab.Collections\3.3\HeuristicLab.Collections-3.3.csproj">
       <Project>{958B43BC-CC5C-4FA2-8628-2B3B01D890B6}</Project>
@@ -162,5 +190,6 @@
       <Name>HeuristicLab.Tracing-3.3</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
