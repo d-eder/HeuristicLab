@@ -7,10 +7,12 @@ using System.Threading.Tasks;
 using HeuristicLab.Common;
 using HeuristicLab.Core;
 using HeuristicLab.Optimization;
+using HeuristicLab.RuntimePrediction.Preprocessing;
 
 namespace HeuristicLab.RuntimePrediction {
   class RuntimePredictionService {
 
+    private const string TARGET_LABEL = "Execution Time";
     private readonly Config config = new Config();
 
     static RuntimePredictionService() {
@@ -41,10 +43,6 @@ namespace HeuristicLab.RuntimePrediction {
       var extractor = new HlDataExtractor();
 
       var experimentPath = new DirectoryInfo(config.ExperimentPath);
-
-      var preparer = new DataPreparer();
-      var fullData = new Data();
-
       var files = FileUtils
           .GetFilesRecursive(experimentPath);
 
@@ -52,16 +50,30 @@ namespace HeuristicLab.RuntimePrediction {
                            where f.Name.EndsWith(".hl")
                            select new { File = f, Runs = extractor.ExtractRunCollectionFromHlFile(f) };
 
-      runCollections.ForEach(async (x) => {
-        var runs = await x.Runs;
-        var data = preparer.CreateDataFromRuns(runs);
-        var outputFile = new FileInfo(experimentPath.FullName + "\\" + x.File.Name + "_data.csv");
-        CsvUtil.Write(outputFile, data.Header, data.Values);
-        preparer.AddRuns(fullData, new[] { runs });
-      });
+      var dataPath = new DirectoryInfo(experimentPath.FullName).Parent.FullName;
 
-      var fullOutputFile = new FileInfo(experimentPath.FullName + "\\all_data.csv");
-      CsvUtil.Write(fullOutputFile, fullData.Header, fullData.Values);
+      var allDataProcessor = new DataPreprocessor(TARGET_LABEL);
+
+      runCollections.Select(async (x) => {
+        var runs = await x.Runs;
+        if (runs.Count == 0)
+          return runs;
+        Logger.Info("creating data from " + x.File.Name);
+        var processor = new DataPreprocessor(TARGET_LABEL, runs);
+        processor.Process();
+        var outputFile = new FileInfo(dataPath + "\\" + x.File.Name + "_data.csv");
+        Logger.Info("writing file " + outputFile.Name);
+        CsvUtil.Write(outputFile, processor.GetDataAsDynamic());
+        return runs;
+
+      }).ToList()
+      .ForEach(t => allDataProcessor.AddRuns(t.Result));
+
+      allDataProcessor.Process();
+      var fullOutputFile = new FileInfo(dataPath + "\\all_data.csv");
+      Console.WriteLine("writing file " + fullOutputFile.Name);
+      CsvUtil.Write(fullOutputFile, allDataProcessor.GetDataAsDynamic());
     }
+
   }
 }

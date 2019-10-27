@@ -7,13 +7,13 @@ using System.Threading.Tasks;
 using HeuristicLab.Common;
 using HeuristicLab.Optimization;
 
-namespace HeuristicLab.RuntimePrediction {
+namespace HeuristicLab.RuntimePrediction.Preprocessing {
   public class HlDataExtractor {
 
     internal Task<RunCollection> ExtractRunCollectionFromHlFile(FileInfo f) {
       return Task.Run(() => {
         try {
-          Logger.Info($"Extract Runs from {f}");
+          Logger.Info($"extract runs from {f.Name}");
           var content = ContentManager.Load(f.FullName);
           return ExtractRunCollection(content);
         } catch (Exception e) {

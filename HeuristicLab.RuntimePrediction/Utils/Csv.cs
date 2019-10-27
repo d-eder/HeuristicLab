@@ -16,21 +16,21 @@ namespace HeuristicLab.RuntimePrediction {
   public class CsvUtil {
     const string DELIMETER = "\t";
 
-    internal static void Write(FileInfo outputFile, IList<string> header, IList<List<object>> values) {
+    internal static void Write(FileInfo outputFile, IEnumerable<object> data) {
       var records = new List<dynamic>();
 
-      for (int i = 0; i < values.Count; i++) {
-        IDictionary<string, object> record = new ExpandoObject();
-        for (int j = 0; j < header.Count; j++) {
-          string h = header[j];
-          object val = values[i][j];
-          record.Add(h, val);
-        }
-        records.Add(record);
-      }
+      //for (int i = 0; i < values.Count; i++) {
+      //  IDictionary<string, object> record = new ExpandoObject();
+      //  for (int j = 0; j < header.Count; j++) {
+      //    string h = header[j];
+      //    object val = values[i][j];
+      //    record.Add(h, val);
+      //  }
+      //  records.Add(record);
+      //}
 
       using var csv = new CsvWriter(new StreamWriter(outputFile.FullName));
-      csv.WriteRecords(records);
+      csv.WriteRecords(data);
 
       //List<string> lines = new List<string>();
       //lines.Add(string.Join(DELIMETER, header));

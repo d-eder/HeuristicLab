@@ -17,6 +17,7 @@ namespace HeuristicLab.RuntimePrediction {
       //predicitonService.GenerateRawData<GeneticAlgorithm, TravelingSalesmanProblem>(1000);
       //predicitonService.PreprocessData();
       predicitonService.ExtractDataFromHlFiles();
+      Console.WriteLine("-- end -- ");
       Console.ReadKey();
     }
 

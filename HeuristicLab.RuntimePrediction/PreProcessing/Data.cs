@@ -1,63 +1,53 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HeuristicLab.RuntimePrediction {
+namespace HeuristicLab.RuntimePrediction.Preprocessing {
   class Data {
-    private HeaderCollection headers = new HeaderCollection();
-    private List<Row> rows = new List<Row>();
+    private SortedSet<string> headers = new SortedSet<string>();
+    public IReadOnlyCollection<string> Headers => headers;
+
+    public List<IDictionary<string, Parameter>> entries = new List<IDictionary<string, Parameter>>();
+
+    private bool dirtyEntries = false;
 
 
-    public void Add(IEnumerable<KeyValuePair<string, object>> data) {
-      var row = new Row() {
-        rowData = new List<object>(headers.Count)
-      };
-      foreach (var dataPoint in data) {
-        int idx = headers.GetHeaderIndex(dataPoint.Key);
-        row.Set(idx, dataPoint.Value);
-      }
-      rows.Add(row);
+    public void RemoveHeader(string header) {
+      headers.Remove(header);
+      entries.ForEach(e => e.Remove(header));
+      dirtyEntries = true;
     }
 
-    private struct Row {
-      public List<object> rowData;
-
-      public void Set(int idx, object data) {
-        rowData.FillWithNull(idx + 1);
-        rowData[idx] = data;
-      }
+    public void AddEntry(IEnumerable<Parameter> entry) { 
+      entry.ForEach(e => headers.Add(e.Name));
+      entries.Add(entry.ToDictionary(e => e.Name));
+      dirtyEntries = true;
     }
 
-    public List<string> Header => headers.ToList();
-    public List<List<object>> Values => rows.Select(r => r.rowData.FillWithNull(headers.Count)).ToList();
 
-
-    public (IEnumerable<string> header, IEnumerable<List<object>> values) Get() {
-      return (Header, Values);
+    public IEnumerable<Parameter> GetParameters(string header) {
+      CheckEntries();
+      return entries.Select(e => e[header]);
     }
 
-    private class HeaderCollection : IEnumerable<string> {
-      private IDictionary<string, int> headers = new Dictionary<string, int>();
+    public IEnumerable<object> GetValues(string header) => GetParameters(header).Select(p => p.Value);
 
-      public int GetHeaderIndex(string header) {
-        if (!headers.TryGetValue(header, out int idx)) {
-          idx = headers.Count();
-          headers[header] = idx;
+    public List<IDictionary<string, Parameter>> GetEntries() {
+      CheckEntries();
+      return entries;
+    }
+
+    private void CheckEntries() {
+      if (!dirtyEntries) return;
+      foreach (var header in headers) {
+        var baseParam = entries.Where(e => e.ContainsKey(header)).First()[header];
+        foreach (var entry in entries) {
+          if (!entry.ContainsKey(header)) {
+            entry.Add(header, baseParam.Copy(null));
+          }
         }
-        return idx;
-      }
-
-      public int Count => headers.Count();
-
-      public IEnumerator<string> GetEnumerator() {
-        return headers.Keys.GetEnumerator();
-      }
-
-      IEnumerator IEnumerable.GetEnumerator() {
-        return this.GetEnumerator();
       }
     }
   }
