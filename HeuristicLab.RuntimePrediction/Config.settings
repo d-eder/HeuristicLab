@@ -6,7 +6,7 @@
       <Value Profile="(Default)">..\..\..\..\data/rawdata</Value>
     </Setting>
     <Setting Name="ExperimentPath" Type="System.String" Scope="User">
-      <Value Profile="(Default)">..\..\..\..\Experimente\runs</Value>
+      <Value Profile="(Default)">..\..\..\..\Experimente\ParameterAnalyse</Value>
     </Setting>
   </Settings>
 </SettingsFile>

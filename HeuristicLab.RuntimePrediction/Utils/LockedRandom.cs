@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using SRandom = System.Random;
 
 namespace HeuristicLab.RuntimePrediction {
+  
   class LockedRandom {
-    private Random random = new Random();
+    private SRandom random = new SRandom();
 
     internal int Next(int from, int to) {
       lock (this) {

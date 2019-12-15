@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using HeuristicLab.Common;
 using HeuristicLab.Core;
 using HeuristicLab.Optimization;
+using HeuristicLab.RuntimePrediction.Common;
 using HeuristicLab.RuntimePrediction.Preprocessing;
 
 namespace HeuristicLab.RuntimePrediction {
@@ -16,7 +17,7 @@ namespace HeuristicLab.RuntimePrediction {
     private readonly Config config = new Config();
 
     static RuntimePredictionService() {
-      ContentManager.Initialize(new PersistenceContentManager());
+      ContentManagerInitializer.Initialize();
     }
 
     public void GenerateRawData<TAlgorithm, TProblem>(int count) where TAlgorithm : IAlgorithm, IStorableContent, new() where TProblem : IProblem, new() {

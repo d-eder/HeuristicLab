@@ -109,9 +109,6 @@
     <Content Include="Google.OrTools.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Google.OrTools.pdb">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Include="Google.OrTools.runtime.win-x64.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

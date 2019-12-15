@@ -8,11 +8,12 @@ using HeuristicLab.Optimization;
 using HeuristicLab.Parameters;
 using HeuristicLab.Problems.Instances;
 using HeuristicLab.Tracing;
+using SRandom = System.Random;
 
 namespace HeuristicLab.RuntimePrediction {
   class DataGenerator<TAlgorithm, TProblem> where TAlgorithm : IAlgorithm, new() where TProblem : IProblem, new() {
     private IAlgorithmRunner runner = AlgrithmRunnerFactory.GetRunner();
-    private Random random = new Random();
+    private SRandom random = new SRandom();
 
 
     public TaskQueue<Task<GenerationResult>> GenerateData(int count) {

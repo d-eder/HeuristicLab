@@ -37,7 +37,7 @@ namespace HeuristicLab.RuntimePrediction {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("..\\..\\..\\..\\Experimente\\runs")]
+        [global::System.Configuration.DefaultSettingValueAttribute("..\\..\\..\\..\\Experimente\\ParameterAnalyse")]
         public string ExperimentPath {
             get {
                 return ((string)(this["ExperimentPath"]));
