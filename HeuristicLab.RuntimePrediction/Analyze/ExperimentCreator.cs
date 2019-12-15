@@ -19,12 +19,8 @@ using Parameter = HeuristicLab.RuntimePrediction.Preprocessing.Parameter;
 namespace HeuristicLab.RuntimePrediction.Experiments {
   class ExperimentCreator : IExperimentCreator {
 
-    public Task SaveExperiment(AnalyzeExperiment experiment, string filename) {
-      experiment.File = new FileInfo(filename);
-      return Task.Run(() => {
-        ContentManagerInitializer.Initialize();
-        ContentManager.Save(experiment.Experiment, filename, true);
-      });
+    static ExperimentCreator() {
+      ContentManagerInitializer.Initialize();
     }
 
     public string GetExperimentName(Type algorithmType, Type problemType) {

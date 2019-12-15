@@ -8,7 +8,6 @@ using HeuristicLab.RuntimePrediction.Preprocessing;
 
 namespace HeuristicLab.RuntimePrediction.Experiments {
   public interface IExperimentCreator {
-    Task SaveExperiment(AnalyzeExperiment experiment, string filename);
     Task<AnalyzeExperiment> CreateExperimentForParameters(Type algorithmType, Type problemType, IEnumerable<Parameter> parameters);
     string GetExperimentName(Type algorithmType, Type problemType);
     }

@@ -26,6 +26,7 @@ namespace HeuristicLab.RuntimePrediction {
       new DirectoryInfo("./")
         .GetFiles("*Problems.Instances*.dll")
         .ForEach(f => Assembly.LoadFile(f.FullName));
+
     }
   }
 }

@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using HeuristicLab.Common;
 using HeuristicLab.Optimization;
+using HeuristicLab.RuntimePrediction.Common;
 using HeuristicLab.RuntimePrediction.Persistence;
 using MongoDB.Bson;
 using MongoDB.Driver;
@@ -13,7 +14,7 @@ using MongoDB.Driver;
 namespace HeuristicLab.RuntimePrediction.Analyze {
 
   public interface IParameterAnalyzerService {
-    Task InsertAnalyzeExperiment(AnalyzeExperiment experiment);
+    Task SaveExperiment(AnalyzeExperiment experiment);
     Task<AnalyzeExperiment> GetExperimentWithFilename(string fileName);
   }
 
@@ -22,19 +23,23 @@ namespace HeuristicLab.RuntimePrediction.Analyze {
     private PersistenceServiceProvider provider;
     public ParameterAnalyzerService(PersistenceServiceProvider provider) {
       this.provider = provider;
+      ContentManagerInitializer.Initialize();
     }
 
-    public async Task InsertAnalyzeExperiment(AnalyzeExperiment experiment) {
+    public async Task SaveExperiment(AnalyzeExperiment experiment) {
       var col = provider.GetCollection<AnalyzeExperimentDocument>();
+
+      ContentManager.Save(experiment.Experiment, experiment.File.FullName, true);
+      var hugo = ContentManager.Load(experiment.File.FullName);
 
       var fileName = experiment.File.Name;
       await col.DeleteOneAsync(d => d.FileName == fileName);
-      
+
       var document = new AnalyzeExperimentDocument {
         Name = experiment.Experiment.Name,
         FileName = experiment.File.Name,
         FullName = experiment.File.FullName,
-        GeneratedParameters = experiment.GeneratedParameters.Select(t => new KeyValuePair<string,string>(t.parameterName, t.value)).ToList()
+        GeneratedParameters = experiment.GeneratedParameters.Select(t => new KeyValuePair<string, string>(t.parameterName, t.value)).ToList()
       };
       await col.InsertOneAsync(document);
     }

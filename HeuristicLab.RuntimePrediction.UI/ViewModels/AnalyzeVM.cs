@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -44,8 +45,8 @@ namespace HeuristicLab.RuntimePrediction.UI.ViewModels {
       if (file != null) {
         await DoSafe(async () => {
           var experiment = await experimentTask;
-          await experimentCreator.SaveExperiment(experiment, file);
-          await analyzerService.InsertAnalyzeExperiment(experiment);
+          experiment.File = new FileInfo(file);
+          await analyzerService.SaveExperiment(experiment);
           CurrentExperiment = new ExperimentVM(experiment);
           UIEventHandler.ShowMessage(
             new MessageEventArgs { Title = "Experiment saved", Content = $"Experiment saved in {file}, execute experiment and import results again" });
