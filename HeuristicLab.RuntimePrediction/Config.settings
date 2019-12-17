@@ -5,7 +5,13 @@
     <Setting Name="RawDataPath" Type="System.String" Scope="User">
       <Value Profile="(Default)">..\..\..\..\data/rawdata</Value>
     </Setting>
+    <Setting Name="ExperimentPath2" Type="System.String" Scope="User">
+      <Value Profile="(Default)">..\..\..\..\Experimente\ParameterAnalyse</Value>
+    </Setting>
     <Setting Name="ExperimentPath" Type="System.String" Scope="User">
+      <Value Profile="(Default)">..\..\..\..\Experimente\runs</Value>
+    </Setting>
+    <Setting Name="AnalyzePath" Type="System.String" Scope="User">
       <Value Profile="(Default)">..\..\..\..\Experimente\ParameterAnalyse</Value>
     </Setting>
   </Settings>

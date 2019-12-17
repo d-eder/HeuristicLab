@@ -42,7 +42,10 @@ namespace HeuristicLab.RuntimePrediction.Experiments {
         optimizers.ForEach(o => experiment.Optimizers.Add(o));
 
         var mappedParameters = generatedParameters.Select(p => (p.Name, p.ActualValue.GetUnderlyingValue().ToString()));
-        return new AnalyzeExperiment { Experiment = experiment, GeneratedParameters = mappedParameters.ToList() };
+        return new AnalyzeExperiment {
+          Experiment = experiment,
+          GeneratedParameters = mappedParameters.ToList()
+        };
       });
     }
 
@@ -54,10 +57,15 @@ namespace HeuristicLab.RuntimePrediction.Experiments {
       string paramName = parameter.Name;
       var list = new List<IAlgorithm>();
 
+      var baseAlgorithm = (IAlgorithm)Activator.CreateInstance(algorithmType);
+      var baseProblem = (IProblem)Activator.CreateInstance(problemType);
+
       foreach (var value in GenerateParameterValues(parameter)) {
 
-        var algorithm = (IAlgorithm)Activator.CreateInstance(algorithmType);
-        var problem = (IProblem)Activator.CreateInstance(problemType);
+        var algorithm = (IAlgorithm)baseAlgorithm.Clone();
+        algorithm.Name += "-" + parameter.Name;
+
+        var problem = (IProblem)baseProblem.Clone();
 
         algorithm.Problem = problem;
 
@@ -82,9 +90,14 @@ namespace HeuristicLab.RuntimePrediction.Experiments {
       public GeneratedValue(bool value) {
         this.value = new BoolValue(value);
       }
+
       public GeneratedValue(int value) {
         this.value = new IntValue(value);
       }
+      public GeneratedValue(double value) {
+        this.value = new DoubleValue(value);
+      }
+
       public GeneratedValue(PercentValue value) {
         this.value = value;
       }
@@ -100,6 +113,8 @@ namespace HeuristicLab.RuntimePrediction.Experiments {
         }
 
         var validValues = GetValidValues(parameter);
+        if (validValues.Count() == 1)
+          return null;
         return (IItem)validValues.Where(v => v.GetType() == (Type)value).SingleOrDefault();
       }
     }
@@ -109,9 +124,9 @@ namespace HeuristicLab.RuntimePrediction.Experiments {
       var prop = item.GetType().GetProperty(propName);
       var validValues = (IEnumerable<IItem>)prop.GetValue(item);
 
-      if(validValues.Count() == 0) {
-        var type = item.GetType().GetGenericArguments()[0];
-        return ApplicationManager.Manager.GetInstances(type);
+      if (validValues.Count() == 0) {
+        //var type = item.GetType().GetGenericArguments()[0];
+        //return ApplicationManager.Manager.GetInstances(type);
       }
 
       return validValues;
@@ -133,23 +148,35 @@ namespace HeuristicLab.RuntimePrediction.Experiments {
             yield return new GeneratedValue(i);
           }
         } else {
-          for (int i = 1; i <= 10; i++) {
+          if (intVal != 1) {
+            for (int i = 1; i <= 5; i++) {
+              yield return new GeneratedValue(intVal / 5 * i);
+            }
+          }
+
+          for (int i = 1; i <= 5; i++) {
             yield return new GeneratedValue(i * intVal);
-            yield return new GeneratedValue(intVal / 5 * i);
           }
         }
       } else if (type == typeof(PercentValue)) {
         for (double d = 0.0; d <= 1; d += 0.1) {
           yield return new GeneratedValue(new PercentValue(d));
         }
-
+      } else if (type == typeof(DoubleValue)) {
+        var doubleVal = ((DoubleValue)currentValue.Value).Value;
+        for (int i = 1; i <= 5; i++) {
+          yield return new GeneratedValue(doubleVal / 5 * i);
+        }
+        for (int i = 1; i <= 5; i++) {
+          yield return new GeneratedValue(i * doubleVal);
+        }
       } else if (item.IsType(typeof(ConstrainedValueParameter<>))) {
         var validValues = GetValidValues(item);
 
         foreach (var value in validValues) {
           yield return new GeneratedValue(value.GetType());
         }
-      }else if (item.IsType(typeof(ValueParameter<>))) {
+      } else if (item.IsType(typeof(ValueParameter<>))) {
 
 
 

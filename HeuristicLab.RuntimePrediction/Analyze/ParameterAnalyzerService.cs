@@ -30,7 +30,6 @@ namespace HeuristicLab.RuntimePrediction.Analyze {
       var col = provider.GetCollection<AnalyzeExperimentDocument>();
 
       ContentManager.Save(experiment.Experiment, experiment.File.FullName, true);
-      var hugo = ContentManager.Load(experiment.File.FullName);
 
       var fileName = experiment.File.Name;
       await col.DeleteOneAsync(d => d.FileName == fileName);
@@ -46,11 +45,13 @@ namespace HeuristicLab.RuntimePrediction.Analyze {
 
     public async Task<AnalyzeExperiment> GetExperimentWithFilename(string fileName) {
       var file = new FileInfo(fileName);
+      var exp = (Experiment)ContentManager.Load(fileName);
       var col = provider.GetCollection<AnalyzeExperimentDocument>();
-      var doc = await (await col.FindAsync(a => a.FileName == file.Name)).SingleAsync();
+      var doc = await (await col.FindAsync(a => a.FileName == file.Name)).SingleOrDefaultAsync();
+      if (doc == null) return null;
       return new AnalyzeExperiment {
         File = file,
-        Experiment = (Experiment)ContentManager.Load(fileName),
+        Experiment = exp,
         GeneratedParameters = doc.GeneratedParameters.Select(k => (k.Key, k.Value)).ToList()
       };
     }

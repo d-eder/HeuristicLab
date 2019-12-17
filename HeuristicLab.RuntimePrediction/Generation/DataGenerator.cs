@@ -40,7 +40,7 @@ namespace HeuristicLab.RuntimePrediction {
         ea.Engine = new SequentialEngine.SequentialEngine();
       }
 
-      Parameterizer.SetParameters(algorithm);
+      //Parameterizer.SetParameters(algorithm);
 
       Logger.Info($"prepare algorithm {number}");
       PrintParams(algorithm);
@@ -55,12 +55,14 @@ namespace HeuristicLab.RuntimePrediction {
     }
 
     private void LoadRandomProblemInstance(TProblem problem) {
-      var handler = ProblemInstancePreparer.Create(problem);
-      if (handler.Instances.Count == 0) {
-        throw new InvalidOperationException($"no instances found for proble {problem}: missing a reference?");
-      }
-      var instance = random.FromCollection(handler.Instances);
-      handler.SetInstance(problem, instance);
+      // todo
+
+      //var handler = ProblemInstancePreparer.Create(problem);
+      //if (handler.Instances.Count == 0) {
+      //  throw new InvalidOperationException($"no instances found for proble {problem}: missing a reference?");
+      //}
+      //var instance = random.FromCollection(handler.Instances);
+      //handler.SetInstance(problem, instance);
     }
 
     private void PrintParams(IParameterizedNamedItem item) {

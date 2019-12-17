@@ -38,12 +38,36 @@ namespace HeuristicLab.RuntimePrediction {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("..\\..\\..\\..\\Experimente\\ParameterAnalyse")]
+        public string ExperimentPath2 {
+            get {
+                return ((string)(this["ExperimentPath2"]));
+            }
+            set {
+                this["ExperimentPath2"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("..\\..\\..\\..\\Experimente\\runs")]
         public string ExperimentPath {
             get {
                 return ((string)(this["ExperimentPath"]));
             }
             set {
                 this["ExperimentPath"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("..\\..\\..\\..\\Experimente\\ParameterAnalyse")]
+        public string AnalyzePath {
+            get {
+                return ((string)(this["AnalyzePath"]));
+            }
+            set {
+                this["AnalyzePath"] = value;
             }
         }
     }

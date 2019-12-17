@@ -22,8 +22,8 @@ namespace HeuristicLab.RuntimePrediction {
           var problemInstanceConsumerType = problemType
             .GetInterfaces()
             .Where(iface => iface.IsGenericType && iface.GetGenericTypeDefinition() == typeof(IProblemInstanceConsumer<>))
-            .Select(iface => iface.GetGenericArguments().Single())
-            .Single();
+            .Select(iface => iface.GetGenericArguments().SingleOrDefault())
+            .SingleOrDefault();
           handler = (IProblemInstancePreparer)Activator.CreateInstance(typeof(ProblemInstancePreparer<>).MakeGenericType(problemInstanceConsumerType), problem);
           handlers[problemType] = handler;
         }

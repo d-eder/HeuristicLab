@@ -25,6 +25,8 @@ namespace HeuristicLab.RuntimePrediction.Preprocessing {
     private string targetLabel;
     private List<RunCollection> runs = new List<RunCollection>();
 
+    public IReadOnlyCollection<RunCollection> RunCollections => runs;
+
     private CategoryHandler categoryHandler;
 
     public DataPreprocessor(string targetLabel) {
@@ -58,7 +60,8 @@ namespace HeuristicLab.RuntimePrediction.Preprocessing {
           throw new ArgumentException("could not find targetLabel " + targetLabel);
 
         parameters.Add(new KeyValuePair<string, IItem>(targetLabel, run.Results[targetLabel]));
-        parameterProcessor.ProcessParameters(parameters.Distinct());
+        var processed = parameterProcessor.ProcessParameters(parameters.Distinct());
+        data.AddEntry(processed);
       }
 
       ProcessData();

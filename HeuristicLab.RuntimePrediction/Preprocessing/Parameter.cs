@@ -6,14 +6,12 @@ namespace HeuristicLab.RuntimePrediction.Preprocessing {
   public class CategoryParameter : Parameter {
     public Parameter BaseParameter { get; private set; }
     public CategoryParameter(Parameter baseParameter, string name,  object value) : base(name, baseParameter.Item, value) {
-      BaseParameter = BaseParameter;
+      BaseParameter = baseParameter;
     }
   }
 
   public class Parameter {
     private ParameterValue value;
-
-
 
     public Parameter(string name, IItem item, object value) {
       Name = name;

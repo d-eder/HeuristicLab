@@ -7,7 +7,7 @@ using HeuristicLab.RuntimePrediction.Common;
 namespace HeuristicLab.RuntimePrediction.Preprocessing {
   class FeatureExtractor {
     internal static IEnumerable<Parameter> ExtractProblemFeatures(IEnumerable<Parameter> parameterList) {
-      var parameters = parameterList.ToDictionary(p => p.Name, p => p);
+      var parameters = parameterList.GroupBy(p => p.Name).ToDictionary(p => p.Key, p => p.First());
       if (!parameters.ContainsKey(Constants.PROBLEM_TYPE_KEY)) return new List<Parameter>();
       var problemType = (string)parameters[Constants.PROBLEM_TYPE_KEY].Value;
       try {

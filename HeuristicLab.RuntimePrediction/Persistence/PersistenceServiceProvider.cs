@@ -14,8 +14,6 @@ namespace HeuristicLab.RuntimePrediction.Persistence {
     private readonly MongoClient client;
     private readonly IMongoDatabase analyzeExperimentsDb;
 
-    private IMongoCollection<AnalyzeExperimentDocument> AnalyzeExperimentDocument => analyzeExperimentsDb.GetCollection<AnalyzeExperimentDocument>("AnalyzeExperimentDocument");
-
     public PersistenceServiceProvider() {
       client = new MongoClient("mongodb://localhost:27017");
       analyzeExperimentsDb = client.GetDatabase("runtime-prediction-experiments");

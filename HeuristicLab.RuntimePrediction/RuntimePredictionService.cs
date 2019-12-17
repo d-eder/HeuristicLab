@@ -16,6 +16,8 @@ namespace HeuristicLab.RuntimePrediction {
     private const string TARGET_LABEL = "Execution Time";
     private readonly Config config = new Config();
 
+    private HlDataExtractor extractor = new HlDataExtractor();
+
     static RuntimePredictionService() {
       ContentManagerInitializer.Initialize();
     }
@@ -38,42 +40,6 @@ namespace HeuristicLab.RuntimePrediction {
 
       ContentManager.Save((IStorableContent)algorithm, fileName, true);
       Logger.Info($"write file {fileName}");
-    }
-
-    internal void ExtractDataFromHlFiles() {
-      var extractor = new HlDataExtractor();
-
-      var experimentPath = new DirectoryInfo(config.ExperimentPath);
-      var files = FileUtils
-          .GetFilesRecursive(experimentPath);
-
-      var runCollections = from f in files
-                           where f.Name.EndsWith(".hl")
-                           select new { File = f, Runs = extractor.ExtractRunCollectionFromHlFile(f) };
-
-      var dataPath = new DirectoryInfo(experimentPath.FullName).Parent.FullName;
-
-      var allDataProcessor = new DataPreprocessor(TARGET_LABEL);
-
-      runCollections.Select(async (x) => {
-        var runs = await x.Runs;
-        if (runs.Count == 0)
-          return runs;
-        Logger.Info("creating data from " + x.File.Name);
-        var processor = new DataPreprocessor(TARGET_LABEL, runs);
-        processor.Process();
-        var outputFile = new FileInfo(dataPath + "\\" + x.File.Name + "_data.csv");
-        Logger.Info("writing file " + outputFile.Name);
-        CsvUtil.Write(outputFile, processor.GetDataAsDynamic());
-        return runs;
-
-      }).ToList()
-      .ForEach(t => allDataProcessor.AddRuns(t.Result));
-
-      allDataProcessor.Process();
-      var fullOutputFile = new FileInfo(dataPath + "\\all_data.csv");
-      Console.WriteLine("writing file " + fullOutputFile.Name);
-      CsvUtil.Write(fullOutputFile, allDataProcessor.GetDataAsDynamic());
     }
 
   }
